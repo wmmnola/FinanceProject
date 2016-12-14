@@ -26,13 +26,15 @@ typedef struct Date {
 float getAmountOfMoney( struct Investment d, int lengthoftime);
 float getAmountOfTime(struct Investment d, int amountofmoney);
 struct Date convertToDate(float startingyears);
+void printDate(struct Date d);
 struct Investment createInvestment();
 
 int main(){
   Investment mydata = createInvestment();
   printf("Amount of Money after 5 years: %f \n", getAmountOfMoney(mydata,5));
-  printf("Number of years needed to reach $100: %f \n", getAmountOfTime(mydata,100));
-
+  Date date = convertToDate( getAmountOfTime(mydata,100));
+  printf("Number of years needed to reach $100: ");
+  printDate(date);
   return 0;
 }
 
@@ -50,16 +52,21 @@ struct Investment createInvestment(){
   Investment d;
   printf("How much money are you starting with?: ");
   scanf("%d", &d.startingcash);
-  printf("\nWhat is your intrest rate on your investment: ");
+  printf("What is your intrest rate on your investment: ");
   scanf( "%f",&d.intrestrate);
-  printf("\nHow many times a year is your intrest compounded: ");
+  printf("How many times a year is your intrest compounded: ");
   scanf("%i",&d.timescompoundedayear);
   return d;
 }
 struct Date convertToDate(float startingyears){
   Date date;
-  date.years = floor(startingyears);
-  date.months = floor((startingyears - date.years) * 12);
-  
+  int raw_days = floor(startingyears*365);
+  int raw_months = floor(raw_days/30.42);
+  date.years = floor(raw_months/12);
+  date.months = floor(raw_months - date.years*12);
+  date.days = floor(raw_days - raw_months*30.42);
   return date;
+}
+void printDate(struct Date d){
+  printf("%i years, %i months, and %i days\n", d.years, d.months, d.days);
 }
