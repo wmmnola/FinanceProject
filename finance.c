@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
-
+#include <stdlib.h>
+#include <time.h>
 typedef struct Investment{
 
   int startingcash;
@@ -28,13 +29,26 @@ float getAmountOfTime(struct Investment d, int amountofmoney);
 struct Date convertToDate(float startingyears);
 void printDate(struct Date d);
 struct Investment createInvestment();
+void dateMarginOfError(struct Date d, float startingyears);
+struct Investment generateInvestment(int seed);
 
 int main(){
-  Investment mydata = createInvestment();
+/*  Investment mydata = createInvestment();
   printf("Amount of Money after 5 years: %f \n", getAmountOfMoney(mydata,5));
   Date date = convertToDate( getAmountOfTime(mydata,100));
   printf("Number of years needed to reach $100: ");
   printDate(date);
+  dateMarginOfError(date, getAmountOfTime(mydata,100));
+*/
+
+  Investment i[50];
+  for(int x = 0; x<50; x++){
+    i[x] = generateInvestment(x);
+    Date d = convertToDate(getAmountOfTime(i[x],10000));
+    dateMarginOfError(d, getAmountOfTime(i[x],10000));
+  }
+
+
   return 0;
 }
 
@@ -69,4 +83,21 @@ struct Date convertToDate(float startingyears){
 }
 void printDate(struct Date d){
   printf("%i years, %i months, and %i days\n", d.years, d.months, d.days);
+  return;
+}
+void dateMarginOfError(struct Date d, float startingyears){
+  float combined_date = (d.years) + (d.months/12) + (d.days/365);
+  float error = startingyears/combined_date;
+  printf("the date is %f percent off \n",error);
+  return;
+}
+struct Investment generateInvestment(int seed){
+  Investment i;
+  srand(seed);
+  i.startingcash = rand() % 1000;
+  i.intrestrate = (((float)(rand() % 20))/1000)+.01;
+  /*printf("startingcash : %i,intrest rate : %f\n",i.startingcash, i.intrestrate);*/
+  i.timescompoundedayear = 12;
+  return i;
+
 }
