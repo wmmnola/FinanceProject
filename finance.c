@@ -33,22 +33,12 @@ void dateMarginOfError(struct Date d, float startingyears);
 struct Investment generateInvestment(int seed);
 
 int main(){
-/*  Investment mydata = createInvestment();
+  Investment mydata = createInvestment();
   printf("Amount of Money after 5 years: %f \n", getAmountOfMoney(mydata,5));
-  Date date = convertToDate( getAmountOfTime(mydata,100));
-  printf("Number of years needed to reach $100: ");
+  Date date = convertToDate( getAmountOfTime(mydata,10000));
+  printf("Number of years needed to reach $10000: ");
   printDate(date);
   dateMarginOfError(date, getAmountOfTime(mydata,100));
-*/
-
-  Investment i[50];
-  for(int x = 0; x<50; x++){
-    i[x] = generateInvestment(x);
-    Date d = convertToDate(getAmountOfTime(i[x],10000));
-    dateMarginOfError(d, getAmountOfTime(i[x],10000));
-  }
-
-
   return 0;
 }
 
